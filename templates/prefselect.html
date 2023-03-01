@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Health Analysis App</title>
+  </head>
+  <body>
+    <br>
+    <h1 class="d-flex justify-content-center align-items-center container"> Hi, {{username}}</h1>
+    <div class="card text-center">
+      <div class="card-body">
+        {% for message in messages %}
+        <h1 color:red>{{message}}</h1><br>
+        <h2>Try other values to run trigger</h2>
+        {% endfor %}
+        Your current Age: {{age}} <br> 
+        Your current Weight: {{weight}} kgs <br>
+        Your current Height: {{height}} ft <br>
+        Your current Water Intake: {{water}} ltrs <br>
+        Your current Protein Intake: {{protein}} gms<br>
+        Your current Fat Intake: {{fats}} grms <br>
+        your current carbs Intake: {{carbs}} grms <br>
+        </div>
+    </div>
+      
+<div class="d-flex justify-content-center align-items-center container">
+
+
+<br>
+<div class="row">
+  {% if select_trigger %}
+    <form action="analysereq" method="post">
+
+        {% csrf_token %}
+        <label for="selectparam">Select on which parameter you want to run trigger</label>
+        <select required class="form-control" id="selectparam" name="param">
+            <option value="weight">Weight</option>
+            <option value="height">Height</option>
+            <option value="fats">Fat</option>
+            <option value="carbs">Carbs</option>
+            <option value="water">Water</option>
+            <option value="protein">Protein</option>
+          </select>
+          <br>
+          <div class="form-group" >
+            <label for="refvalue">Enter the reference value</label>
+            <input type="number" class="form-control" id="refvalue" placeholder="Reference Value" required name="value">
+        </div>
+        <label for="selectcondition">Select condition you want to run</label>
+        <select class="form-control" id="selectcondition" required name="condition">
+            <option value="1">If reference is greater than or equals your current equal</option>
+            <option value="2">If reference is lesser than or equals your current equal</option>
+            <option value="3">If reference is equal to current value</option>
+        </select>  
+
+          <br>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    {% endif %}
+
+    {% if analyse_repost %}
+    <form action="functionality" method="post">
+        {% csrf_token %}
+        <label for="selectparam">Choose the Functionality</label>
+        <select required class="form-control" id="selectparam" name="param">
+            <option value="1">Copy a value to Another</option>
+            <option value="2">Change the current value</option>
+            <option value="3">Draw the Graph</option>
+        </select> 
+          <br>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    {% endif %}
+<br>
+    {% if copynumber %}
+    <form action="copynumber" method="post">
+        {% csrf_token %}
+        <label for="selectparam">Select from which parameter you want to copy to</label>
+        <select required class="form-control" id="selectparam" name="copyfromparam">
+            <option value="weight">Weight</option>
+            <option value="height">Height</option>
+            <option value="fats">Fat</option>
+            <option value="carbs">Carbs</option>
+            <option value="water">Water</option>
+            <option value="protein">Protein</option>
+          </select>
+          <br>
+          <label for="selectparam">Select to which parameter you want to copy to</label>
+        <select required class="form-control" id="selectparam" name="copytoparam">
+            <option value="weight">Weight</option>
+            <option value="height">Height</option>
+            <option value="fats">Fat</option>
+            <option value="carbs">Carbs</option>
+            <option value="water">Water</option>
+            <option value="protein">Protein</option>
+          </select>
+          <br> 
+        <br>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    {% endif %}
+<br>
+    {% if arthematic %}
+    <form action="arthematic" method="post">
+        {% csrf_token %}
+        <label for="selectparam">Select from which parameter you want to copy to</label>
+        <select required class="form-control" id="selectparam" name="param">
+            <option value="weight">Weight</option>
+            <option value="height">Height</option>
+            <option value="fats">Fat</option>
+            <option value="carbs">Carbs</option>
+            <option value="water">Water</option>
+            <option value="protein">Protein</option>
+        </select>
+        <br>
+        <label for="selectparam">Select Arthematic Operation</label>
+        <select required class="form-control" id="selectparam" name="arthematic">
+            <option value="1">Add</option>
+            <option value="2">Substract</option>
+            <option value="3">Multiply</option>
+            <option value="4">Division</option>
+        </select>
+        <div class="form-group" >
+            <label for="refvalue">Enter the reference value</label>
+            <input type="number" class="form-control" id="refvalue" placeholder="Reference Value" required name="refvalue">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    {% endif %}
+
+    {% if graphanalysis %}
+    <form action="expression" method="post">
+        {% csrf_token %}
+        <label for="selectparam">Select Dependent value</label>
+        <select required class="form-control" id="selectparam" name="param1">
+            <option value="weight">Weight</option>
+            <option value="Height">Height</option>
+            <option value="fats">Fat</option>
+            <option value="carbs">Carbs</option>
+            <option value="water">Water</option>
+            <option value="protein">Protein</option>
+        </select>
+        <br>
+        <label for="selectparam">Select Independent value</label>
+        <select required class="form-control" id="selectparam1" name="param2">
+            <option value="weight">Weight</option>
+            <option value="height">Height</option>
+            <option value="fats">Fat</option>
+            <option value="carbd">Carbs</option>
+            <option value="water">Water</option>
+            <option value="protein">Protein</option>
+          </select>
+
+          <br>
+          <div class="form-group">
+          <label for="">Enter a, b, c for x = a * y * y + b * y + c relation</label>
+          <input type="number" class="form-control" id="refvalue" placeholder="Y Square coeff" required name="y2coeff">
+          <br>
+          <input type="number" class="form-control" id="refvalue" placeholder="Y coeff" required name="ycoeff">
+          <br>
+          <input type="number" class="form-control" id="refvalue" placeholder="constant" required name="constant">
+          </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    {% endif %}
+</div>
+</div>    
+
+
+</div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
